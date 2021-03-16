@@ -1,0 +1,8 @@
+# ignore all files in the bin folder
+bin/
+# ignore all files in the obj folder
+obj/
+# ignore all files in the logs folder
+logs/
+# ignore all logs *.obj
+*.obj
