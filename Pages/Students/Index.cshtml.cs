@@ -21,11 +21,11 @@ namespace DfwUniversity.Pages_Students
             _context = context;
         }
 
-        public IList<Student> Student { get;set; }
+        public IList<Student> Students { get;set; }
 
         public async Task OnGetAsync()
         {
-            Student = await _context.Students.ToListAsync();
+            Students = await _context.Students.ToListAsync();
         }
     }
 }
