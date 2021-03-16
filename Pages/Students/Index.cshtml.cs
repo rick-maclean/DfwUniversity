@@ -20,19 +20,12 @@ namespace DfwUniversity.Pages_Students
         {
             _context = context;
         }
-        // public IndexModel(DfwUniversity.Data.SchoolContext context, IOptions<MvcOptions> mvcOptions)
-        // {
-        //     _context = context;
-        //     _mvcOptions = mvcOptions.Value;
-        // }
 
         public IList<Student> Student { get;set; }
 
         public async Task OnGetAsync()
         {
             Student = await _context.Students.ToListAsync();
-            // Student = await _context.Students.Take(
-            // _mvcOptions.MaxModelBindingCollectionSize).ToListAsync();
         }
     }
 }
