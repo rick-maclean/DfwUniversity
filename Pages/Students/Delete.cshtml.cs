@@ -21,20 +21,30 @@ namespace DfwUniversity.Pages_Students
 
         [BindProperty]
         public Student Student { get; set; }
+        public string ErrorMessage { get; set; } //added for DELETE error
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false) // error handling added
+        // public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.ID == id);
+            Student = await _context.Students
+                .AsNoTracking() //added as part of error handling ??? why
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (Student == null)
             {
                 return NotFound();
             }
+
+            if (saveChangesError.GetValueOrDefault())  // error handling added
+            {
+                ErrorMessage = "Delete failed. Try again";
+            }
+
             return Page();
         }
 
@@ -45,15 +55,36 @@ namespace DfwUniversity.Pages_Students
                 return NotFound();
             }
 
-            Student = await _context.Students.FindAsync(id);
+            //Commented out and added error handling below
+            // Student = await _context.Students.FindAsync(id);
 
-            if (Student != null)
+            // if (Student != null)
+            // {
+            //     _context.Students.Remove(Student);
+            //     await _context.SaveChangesAsync();
+            // }
+
+            // return RedirectToPage("./Index");
+
+            var student = await _context.Students.FindAsync(id);
+
+            if (student == null)
             {
-                _context.Students.Remove(Student);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.Students.Remove(student);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.)
+                return RedirectToAction("./Delete",
+                                    new { id, saveChangesError = true });
+            }
         }
     }
 }
