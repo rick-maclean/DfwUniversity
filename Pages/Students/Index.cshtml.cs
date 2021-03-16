@@ -14,18 +14,50 @@ namespace DfwUniversity.Pages_Students
     public class IndexModel : PageModel
     {
         private readonly DfwUniversity.Data.SchoolContext _context;
-        // private readonly MvcOptions _mvcOptions;
 
         public IndexModel(DfwUniversity.Data.SchoolContext context)
         {
             _context = context;
         }
 
+        // Add sorting properties to be used for being able to click on a column to sort the data
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
         public IList<Student> Students { get;set; }
+        
+        // modify OnGetAsync to handle sorting
+        // public async Task OnGetAsync()
+        // {
+        //     Students = await _context.Students.ToListAsync();
+        // }
+        public async Task OnGetAsync(string sortOrder)
+    {
+        // using System;
+        NameSort = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        DateSort = sortOrder == "Date" ? "date_desc" : "Date";
 
-        public async Task OnGetAsync()
+        IQueryable<Student> studentsIQ = from s in _context.Students
+                                        select s;
+
+        switch (sortOrder)
         {
-            Students = await _context.Students.ToListAsync();
+            case "name_desc":
+                studentsIQ = studentsIQ.OrderByDescending(s => s.LastName);
+                break;
+            case "Date":
+                studentsIQ = studentsIQ.OrderBy(s => s.EnrollmentDate);
+                break;
+            case "date_desc":
+                studentsIQ = studentsIQ.OrderByDescending(s => s.EnrollmentDate);
+                break;
+            default:
+                studentsIQ = studentsIQ.OrderBy(s => s.LastName);
+                break;
         }
+
+        Students = await studentsIQ.AsNoTracking().ToListAsync();
+    }
     }
 }
