@@ -24,7 +24,7 @@ namespace DfwUniversity.Pages
         {
             IQueryable<EnrollmentDateGroup> data =
                 from student in _context.Students
-                group student by student.EnrollmentDate into dateGroup 
+                group student by student.EnrollmentDate.Date into dateGroup 
                 select new EnrollmentDateGroup()
                 {
                     EnrollmentDate = dateGroup.Key,
