@@ -28,7 +28,7 @@ namespace DfwUniversity.Pages
                 select new EnrollmentDateGroup()
                 {
                     EnrollmentDate = dateGroup.Key,
-                    StudentCount = dateGroup.Count()
+                    StudentCountPerDate = dateGroup.Count()
                 };
 
             StudentsByDate = await data.AsNoTracking().ToListAsync();
