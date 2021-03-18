@@ -9,7 +9,7 @@ namespace DfwUniversity.Data
     {
         public static void Initialize(SchoolContext context)
         {
-            context.Database.EnsureCreated();
+            // context.Database.EnsureCreated(); // remove this now that migrations are being used
 
             if (context.Students.Any())
             {
