@@ -37,7 +37,7 @@ namespace DfwUniversity.Models
         {
             get
             {
-                return LastName + "' " + FirstMidName;
+                return LastName + ", " + FirstMidName;
             }
         }
 
