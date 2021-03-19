@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using DfwUniversity.Data;
 using DfwUniversity.Models;
 
-namespace DfwUniversity.Pages_Courses
+namespace DfwUniversity.Pages.Courses
 {
     public class EditModel : PageModel
     {
@@ -30,12 +30,14 @@ namespace DfwUniversity.Pages_Courses
                 return NotFound();
             }
 
-            Course = await _context.Courses.FirstOrDefaultAsync(m => m.CourseID == id);
+            Course = await _context.Courses
+                .Include(c => c.Department).FirstOrDefaultAsync(m => m.CourseID == id);
 
             if (Course == null)
             {
                 return NotFound();
             }
+           ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "DepartmentID");
             return Page();
         }
 

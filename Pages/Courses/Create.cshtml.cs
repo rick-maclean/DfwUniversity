@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using DfwUniversity.Data;
 using DfwUniversity.Models;
 
-namespace DfwUniversity.Pages_Courses
+namespace DfwUniversity.Pages.Courses
 {
     public class CreateModel : PageModel
     {
@@ -21,6 +21,7 @@ namespace DfwUniversity.Pages_Courses
 
         public IActionResult OnGet()
         {
+        ViewData["DepartmentID"] = new SelectList(_context.Departments, "DepartmentID", "DepartmentID");
             return Page();
         }
 

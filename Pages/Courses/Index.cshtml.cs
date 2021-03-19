@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DfwUniversity.Data;
 using DfwUniversity.Models;
 
-namespace DfwUniversity.Pages_Courses
+namespace DfwUniversity.Pages.Courses
 {
     public class IndexModel : PageModel
     {
@@ -19,11 +19,16 @@ namespace DfwUniversity.Pages_Courses
             _context = context;
         }
 
-        public IList<Course> Course { get;set; }
+        public IList<Course> Courses { get;set; }
 
         public async Task OnGetAsync()
         {
-            Course = await _context.Courses.ToListAsync();
+            // Courses = await _context.Courses
+            //     .Include(c => c.Department)
+            //     .AsNoTracking().ToListAsync();
+            Courses = await _context.Courses
+                .Include(c => c.Department)
+                .ToListAsync();
         }
     }
 }

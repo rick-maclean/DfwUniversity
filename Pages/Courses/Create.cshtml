@@ -1,5 +1,5 @@
 @page
-@model DfwUniversity.Pages_Courses.CreateModel
+@model DfwUniversity.Pages.Courses.CreateModel
 
 @{
     ViewData["Title"] = "Create";
@@ -27,6 +27,10 @@
                 <label asp-for="Course.Credits" class="control-label"></label>
                 <input asp-for="Course.Credits" class="form-control" />
                 <span asp-validation-for="Course.Credits" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.DepartmentID" class="control-label"></label>
+                <select asp-for="Course.DepartmentID" class ="form-control" asp-items="ViewBag.DepartmentID"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
