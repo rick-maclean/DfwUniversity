@@ -1,0 +1,54 @@
+@page
+@model DfwUniversity.Pages.Courses.IndexSelectModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>Courses Using CourseViewModel</h2>
+
+<p>
+    <a asp-page="Create">Create New Course</a>
+</p>
+
+<table class="table">
+    <thead>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseVM[0].CourseID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseVM[0].Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseVM[0].Credits)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseVM[0].DepartmentName)
+        </th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CourseVM)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Credits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.CourseID">Edit</a>  |
+                    <a asp-page="./Details" asp-route-id="@item.CourseID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.CourseID">Delete</a> |
+                    <a asp-page="./Index">Back to List</a>
+                </td>
+            </tr>
+            
+        }
+    </tbody>
+</table>
