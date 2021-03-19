@@ -2,10 +2,10 @@
 @model DfwUniversity.Pages.Courses.IndexModel
 
 @{
-    ViewData["Title"] = "Course";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Courses</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,26 +14,20 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Courses[0].CourseID)
+                @Html.DisplayNameFor(model => model.Course[0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses[0].Title)
+                @Html.DisplayNameFor(model => model.Course[0].Credits)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Courses[0].Credits)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Courses[0].Department)
+                @Html.DisplayNameFor(model => model.Course[0].Department)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Courses) {
+@foreach (var item in Model.Course) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseID)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -41,8 +35,7 @@
                 @Html.DisplayFor(modelItem => item.Credits)
             </td>
             <td>
-                @* @Html.DisplayFor(modelItem => item.Department.DepartmentID) *@
-                @Html.DisplayFor(modelItem => item.Department.Name)
+                @Html.DisplayFor(modelItem => item.Department.DepartmentID)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.CourseID">Edit</a> |

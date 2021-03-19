@@ -19,16 +19,12 @@ namespace DfwUniversity.Pages.Courses
             _context = context;
         }
 
-        public IList<Course> Courses { get;set; }
+        public IList<Course> Course { get;set; }
 
         public async Task OnGetAsync()
         {
-            // Courses = await _context.Courses
-            //     .Include(c => c.Department)
-            //     .AsNoTracking().ToListAsync();
-            Courses = await _context.Courses
-                .Include(c => c.Department)
-                .ToListAsync();
+            Course = await _context.Courses
+                .Include(c => c.Department).ToListAsync();
         }
     }
 }
