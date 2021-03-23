@@ -8,6 +8,14 @@ namespace DfwUniversity.Models
         A, B, C, D, F 
     }
 
+    // There's a many-to-many relationship between the Student and Course entities. The Enrollment 
+    // entity functions as a many-to-many join table with payload in the database. "With payload" means 
+    // that the Enrollment table contains additional data besides FKs for the joined tables (in this 
+    // case, the PK and Grade).
+    //
+    // If the Enrollment table didn't include grade information, it would only need to contain the 
+    // two FKs (CourseID and StudentID). A many-to-many join table without payload is sometimes 
+    // called a pure join table (PJT).
     public class Enrollment
     {
         public int EnrollmentID {get; set;}

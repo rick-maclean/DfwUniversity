@@ -21,19 +21,26 @@ namespace DfwUniversity.Models
         [Range(0,5)]
         public int Credits {get; set;}
 
-        //The Course entity has a foreign key (FK) property DepartmentID. DepartmentID points to the related Department entity. 
-        //The Course entity has a Department navigation property.
+        // The Course entity has a foreign key (FK) property DepartmentID. DepartmentID points 
+        // to the related Department entity. 
+        // The Course entity has a Department navigation property: see below...
+        // NOTE: EF Core doesn't require a foreign key property for a data model when the model 
+        // as a navigation property for a related entity. (in this case Department). However, explicitly 
+        // including the FK in the data model can make updates simpler and more efficient. (so it is good to do)
         public int DepartmentID {get; set;}
 
         //The Course entity has a Department navigation property.
         // see the explanation at the following link:
         // https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/complex-data-model?view=aspnetcore-5.0&tabs=visual-studio-code
-        public Department Department {get; set;}
+       // A course is assigned to one department, so there's a DepartmentID FK and a Department navigation property.
+       public Department Department {get; set;}
 
+        // A course can have any number of students enrolled in it, so the Enrollments navigation 
+        // property is a collection:
         public ICollection<Enrollment> Enrollments {get; set;}
 
         // A course may be taught by multiple instructors, so the CourseAssignments navigation property is a collection
-        // This must show which Profs teach this course
+        // Richard thinks this must show which Profs teach this course
         public ICollection<CourseAssignmentInstructor> CourseAssignments {get;set;}
     }
 

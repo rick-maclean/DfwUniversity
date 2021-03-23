@@ -22,7 +22,8 @@ namespace DfwUniversity.Models
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
-        // Note this is a FK for the dept Administrator who we assume is also an Instructor
+        // Administrator below is the navigation property associated with this FK
+        // Note this is a FK for the dept Administrator  who we assume is also an Instructor
         // The question mark (?) specifies the property is nullable (therefore might not have an Administrator)
         public int? InstructorID { get; set; }
 
