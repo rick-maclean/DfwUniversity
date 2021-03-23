@@ -1,4 +1,4 @@
-# dfwuniversity
+# DfwUniversity
 
 This command will create the initial migration file to create the database
 ```bash
