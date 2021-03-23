@@ -6,3 +6,9 @@ obj/
 logs/
 # ignore all logs *.obj
 *.obj
+
+# do not include the migrations folder
+Migrations/
+
+# do not include the database file
+DfwUniversityDB.db
