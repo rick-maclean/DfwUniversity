@@ -35,7 +35,7 @@ namespace DfwUniversity.Pages.Instructors
         //includes three properties representing the three tables. Therefore it is using InstructorIndexData
         //
         //The OnGetAsync method accepts optional route data for the ID of the selected instructor AND courseID
-        public async Task OnGetAsync(int? id, int? courseID)
+        public async Task OnGetAsync(int? instructorID, int? courseID)
         {
             InstructorData = new InstructorIndexData();
 
@@ -58,15 +58,15 @@ namespace DfwUniversity.Pages.Instructors
             // The selected instructor is retrieved from the list of instructors in the view model. The 
             // view model's Courses property is loaded with the Course entities from that instructor's 
             // CourseAssignments navigation property.
-            if (id != null)
+            if (instructorID != null)
             {
-                InstructorID = id.Value;
+                InstructorID = instructorID.Value;
 
                 // The Where method returns a collection. But in this case, the filter will select a 
                 // single entity, so the Single method is called to convert the collection into a 
                 // single Instructor entity.
                 Instructor instructor = InstructorData.Instructors
-                    .Where(i => i.ID == id.Value).Single();
+                    .Where(i => i.ID == instructorID.Value).Single();
 
                 // The Instructor entity provides access to the CourseAssignments property. 
                 // CourseAssignments provides access to the related Course entities.
