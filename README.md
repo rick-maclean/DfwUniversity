@@ -42,7 +42,7 @@ generate the scaffolding for Students pages...(use the same pattern when needed 
 
 Windows
 ```bash
-dotnet aspnet-codegenerator razorpage -m Student -dc DfwUniversity.Data.SchoolContext -udl -outDir Pages\\Students --referenceScriptLibraries -sqlite  
+dotnet aspnet-codegenerator razorpage -m Student -dc DfwUniversity.Data.SchoolContext -udl -outDir Pages\Students --referenceScriptLibraries -sqlite  
 ```
 
 macOS of Linux
