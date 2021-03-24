@@ -29,6 +29,7 @@ namespace DfwUniversity.Pages.Courses
             }
 
             Course = await _context.Courses
+                .AsNoTracking() // added AsNoTracking() since we are not updating anything on a Get operation
                 .Include(c => c.Department).FirstOrDefaultAsync(m => m.CourseID == id);
 
             if (Course == null)
