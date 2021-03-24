@@ -33,6 +33,12 @@ dotnet add package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -v 5.0.0
 ```
 
 install the aspnet-codegenerator scaffolding tool...
+```bash
+dotnet tool uninstall --global dotnet-aspnet-codegenerator
+dotnet tool install --global dotnet-aspnet-codegenerator --version 5.0.0-*  
+```
+
+generate the scaffolding for Students pages...(use the same pattern when needed for the other pages)
 
 Windows
 ```bash
@@ -42,12 +48,6 @@ dotnet aspnet-codegenerator razorpage -m Student -dc DfwUniversity.Data.SchoolCo
 macOS of Linux
 ```bash
 dotnet aspnet-codegenerator razorpage -m Student -dc Dfw University.Data.SchoolContext -udl -outDir Pages/Students --referenceScriptLibraries -sqlite  
-```
-
-generate the scaffolding for Students pages...(use the same pattern when needed for the other pages)
-```bash
-dotnet tool uninstall --global dotnet-aspnet-codegenerator
-dotnet tool install --global dotnet-aspnet-codegenerator --version 5.0.0-*  
 ```
 
 This command will create the initial migration file to create the database
