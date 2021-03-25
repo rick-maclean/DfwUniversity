@@ -10,7 +10,8 @@ using DfwUniversity.Models;
 
 namespace DfwUniversity.Pages.Instructors
 {
-    public class CreateModel : PageModel
+    // base this now off the InstructorCoursesPageModel vs the default PageModel
+    public class CreateModel : InstructorCoursesPageModel
     {
         private readonly DfwUniversity.Data.SchoolContext _context;
 
@@ -21,6 +22,14 @@ namespace DfwUniversity.Pages.Instructors
 
         public IActionResult OnGet()
         {
+            var instructor = new Instructor();
+            instructor.CourseAssignments = new List<CourseAssignmentInstructor>();
+
+            // Provides an empty collection for the foreach loop
+            // foreach (var course in Model.AssignedCourseDataList)
+            // in the Create Razor page.
+            PopulateAssignedCourseData(_context, instructor);
+
             return Page();
         }
 
@@ -28,17 +37,46 @@ namespace DfwUniversity.Pages.Instructors
         public Instructor Instructor { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        // public async Task<IActionResult> OnPostAsync()
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return Page();
+        //     }
+
+        //     _context.Instructors.Add(Instructor);
+        //     await _context.SaveChangesAsync();
+
+        //     return RedirectToPage("./Index");
+        // }
+        public async Task<IActionResult> OnPostAsync(string[] selectedCourses)
         {
-            if (!ModelState.IsValid)
+            var newInstructor = new Instructor();
+            if (selectedCourses != null)
             {
-                return Page();
+                newInstructor.CourseAssignments = new List<CourseAssignmentInstructor>();
+                foreach (var course in selectedCourses)
+                {
+                    var courseToAdd = new CourseAssignmentInstructor
+                    {
+                        CourseID = int.Parse(course)
+                    };
+                    newInstructor.CourseAssignments.Add(courseToAdd);
+                }
             }
 
-            _context.Instructors.Add(Instructor);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            if (await TryUpdateModelAsync<Instructor>(
+                newInstructor,
+                "Instructor",
+                i => i.FirstMidName, i => i.LastName,
+                i => i.HireDate, i => i.OfficeAssignment, i => i.EmailAddress))
+            {
+                _context.Instructors.Add(newInstructor);                
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            PopulateAssignedCourseData(_context, newInstructor);
+            return Page();
         }
     }
 }

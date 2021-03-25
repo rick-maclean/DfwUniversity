@@ -45,13 +45,36 @@ namespace DfwUniversity.Pages.Instructors
                 return NotFound();
             }
 
-            Instructor = await _context.Instructors.FindAsync(id);
+            // Instructor = await _context.Instructors.FindAsync(id);
 
-            if (Instructor != null)
+            // if (Instructor != null)
+            // {
+            //     _context.Instructors.Remove(Instructor);
+            //     await _context.SaveChangesAsync();
+            // }
+
+            // Uses eager loading for the CourseAssignments navigation property. CourseAssignments must be included or 
+            // they aren't deleted when the instructor is deleted. To avoid needing to read them, configure cascade 
+            // delete in the database.
+            Instructor instructor = await _context.Instructors
+                .Include(i => i.CourseAssignments)
+                .SingleAsync(i => i.ID == id);
+
+            if (instructor == null)
             {
-                _context.Instructors.Remove(Instructor);
-                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
+
+            // If the instructor to be deleted is assigned as administrator of any departments, removes the instructor 
+            // assignment from those departments.
+            var departments = await _context.Departments
+                .Where(d => d.InstructorID == id)
+                .ToListAsync();
+            departments.ForEach(d => d.InstructorID = null);
+
+            _context.Instructors.Remove(instructor);
+
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
