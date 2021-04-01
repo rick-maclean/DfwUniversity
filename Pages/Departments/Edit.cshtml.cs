@@ -11,7 +11,7 @@ using DfwUniversity.Models;
 
 namespace DfwUniversity.Pages.Departments
 {
-    public class EditModel : PageModel
+    public class EditModel : InstructorNamePageModel
     {
         private readonly DfwUniversity.Data.SchoolContext _context;
 
@@ -30,6 +30,8 @@ namespace DfwUniversity.Pages.Departments
                 return NotFound();
             }
 
+            // Get the department matching the id parameter
+            // and also include the Adminitrator (a navigation property)
             Department = await _context.Departments
                 .Include(d => d.Administrator).FirstOrDefaultAsync(m => m.DepartmentID == id);
 
@@ -37,13 +39,17 @@ namespace DfwUniversity.Pages.Departments
             {
                 return NotFound();
             }
-           ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "EmailAddress");
+
+            // ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "ID");
+            // Select current InstructorID.
+            PopulateInstructoresDropDownList(_context, Department.InstructorID);
+
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsyncOld()
         {
             if (!ModelState.IsValid)
             {
@@ -70,6 +76,36 @@ namespace DfwUniversity.Pages.Departments
 
             return RedirectToPage("./Index");
         }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var departmentToUpdate = await _context.Departments.FindAsync(id);
+
+            if (departmentToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            if (await TryUpdateModelAsync<Department>(
+                 departmentToUpdate,
+                 "department",   // Prefix for form value.
+                   d => d.Name, d => d.InstructorID, d => d.StartDate, d => d.Budget))
+            {
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            // Select InstructorID if TryUpdateModelAsync fails.
+            // Select current InstructorID.
+            PopulateInstructoresDropDownList(_context, Department.InstructorID);
+            return Page();
+        }       
+
 
         private bool DepartmentExists(int id)
         {

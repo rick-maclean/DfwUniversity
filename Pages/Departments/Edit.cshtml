@@ -29,10 +29,26 @@
                 <input asp-for="Department.StartDate" class="form-control" />
                 <span asp-validation-for="Department.StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Department.InstructorID" class="control-label"></label>
                 <select asp-for="Department.InstructorID" class="form-control" asp-items="ViewBag.InstructorID"></select>
                 <span asp-validation-for="Department.InstructorID" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                @* <label asp-for="Course.DepartmentID" class="control-label"></label> *@
+                @* <label asp-for="Department.InstructorID" class="control-label"></label> *@
+                @* Change the caption for the Instructor drop-down from InstructorID to Administrator. *@
+                <label asp-for="Department.Administrator" class="control-label"></label>
+
+
+                @* <select asp-for="Course.DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID"></select> *@
+                @* Replace "ViewBag.DepartmentID" with DepartmentNameSL (from the base class). *@
+                @* <select asp-for="Department.InstructorID" class="form-control" asp-items="ViewBag.InstructorID"></select> *@
+                @* <span asp-validation-for="Department.InstructorID" class="text-danger"></span> *@
+                <select asp-for="Department.InstructorID" class="form-control" 
+                        asp-items="@Model.InsctructorsSL"></select>
+                <span asp-validation-for="Department.InstructorID" class="text-danger"></span>
+
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
