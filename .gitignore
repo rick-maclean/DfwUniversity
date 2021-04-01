@@ -11,6 +11,6 @@ logs/
 Migrations/
 
 # do not include the database file
-DfwUniversityDB.db
-DfwUniversityDB.db-shm
-DfwUniversityDB.db-wal
+# DfwUniversityDB.db
+# DfwUniversityDB.db-shm
+# DfwUniversityDB.db-wal
