@@ -10,7 +10,7 @@ using DfwUniversity.Models;
 
 namespace DfwUniversity.Pages.Departments
 {
-    public class CreateModel : PageModel
+    public class CreateModel : InstructorNamePageModel
     {
         private readonly DfwUniversity.Data.SchoolContext _context;
 
@@ -22,7 +22,8 @@ namespace DfwUniversity.Pages.Departments
         public IActionResult OnGet()
         {
             //ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "EmailAddress");
-            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "ID");
+            //ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "ID");
+            PopulateInstructoresDropDownList(_context); // Now the Administrator dropdownList will display Names vs IDs
             return Page();
         }
 
@@ -32,15 +33,40 @@ namespace DfwUniversity.Pages.Departments
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            // if (!ModelState.IsValid)
+            // {
+            //     return Page();
+            // }
+
+            // _context.Departments.Add(Department);
+            // await _context.SaveChangesAsync();
+
+            // return RedirectToPage("./Index");
+
+
+            // Changes made so that when creating a new course it will utilize InstructorSL when creating it.
+            var newDepartment = new Department();
+
+            if (await TryUpdateModelAsync<Department>(
+                                newDepartment,
+                                "department", //Prefix for the form value.
+                                // Note this is passing in the form data to set the values for this new Course
+                                s => s.Name, 
+                                s => s.Budget, 
+                                s => s.StartDate, 
+                                s => s.InstructorID)
+                )
             {
-                return Page();
+                _context.Departments.Add(newDepartment);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index"); //If all succeeds in creating it then return to the Index view
             }
 
-            _context.Departments.Add(Department);
-            await _context.SaveChangesAsync();
+            // Select InstructorID if TryUpdateModelAsync fails.
+            PopulateInstructoresDropDownList(_context, newDepartment.InstructorID);
+            return Page();
 
-            return RedirectToPage("./Index");
+
         }
     }
 }
