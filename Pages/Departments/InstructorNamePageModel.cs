@@ -15,7 +15,7 @@ namespace DfwUniversity.Pages.Departments
         public void PopulateInstructoresDropDownList(SchoolContext _context, object selectedInstructor = null)
         {
             var instructorQuery = from i in _context.Instructors
-                                   orderby i.LastName // Sort by name.
+                                   orderby i.LastName, i.FirstMidName // Sort by name.
                                    select i;
 
             // here is the URL explaining this function
