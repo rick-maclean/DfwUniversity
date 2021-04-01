@@ -21,7 +21,8 @@ namespace DfwUniversity.Pages.Departments
 
         public IActionResult OnGet()
         {
-        ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "EmailAddress");
+            //ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "EmailAddress");
+            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "ID");
             return Page();
         }
 
