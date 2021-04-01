@@ -48,33 +48,34 @@ namespace DfwUniversity.Pages.Courses
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        // public async Task<IActionResult> OnPostAsync()
-        // {
-        //     if (!ModelState.IsValid)
-        //     {
-        //         return Page();
-        //     }
+        public async Task<IActionResult> OnPostAsyncOld()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
-        //     _context.Attach(Course).State = EntityState.Modified;
+            _context.Attach(Course).State = EntityState.Modified;
 
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!CourseExists(Course.CourseID))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(Course.CourseID))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-        //     return RedirectToPage("./Index");
-        // }
+            return RedirectToPage("./Index");
+        }
+        
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
